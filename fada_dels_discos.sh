@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # fada_dels_discos.sh — la fada que dona vida a discos virtuals (.disk -> /dev/loopX)
 #
@@ -6,7 +5,7 @@
 #
 # First created in 2023. Current version updated in 2025.
 #
-# Version: 2.2.0
+# Version: 2.2.2
 # Author:  Sara Jornet Calomarde <sjcedu@mp.me>
 # License: GPLv3 or later
 #
@@ -18,7 +17,7 @@
 set -euo pipefail
 
 PROGNAME="fada_dels_discos.sh"
-VERSION="2.2.1"
+VERSION="2.2.2"
 AUTHOR_NAME="Sara Jornet Calomarde"
 AUTHOR_EMAIL="sjornet2@xtec.cat"
 LICENSE_SHORT="GPLv3 or later"
