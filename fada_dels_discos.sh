@@ -1,3 +1,4 @@
+
 #!/bin/bash
 # fada_dels_discos.sh — la fada que dona vida a discos virtuals (.disk -> /dev/loopX)
 #
@@ -17,13 +18,13 @@
 set -euo pipefail
 
 PROGNAME="fada_dels_discos.sh"
-VERSION="2.2.0"
+VERSION="2.2.1"
 AUTHOR_NAME="Sara Jornet Calomarde"
 AUTHOR_EMAIL="sjornet2@xtec.cat"
 LICENSE_SHORT="GPLv3 or later"
 
 # Defaults
-SIZE="100M"
+SIZE="1G"
 SIZE_EXPLICIT=0
 QUIET=0
 
@@ -33,12 +34,12 @@ QUIET=0
 ###############################################################################
 
 log() {
-    [[ $QUIET -eq 0 ]] || return
+    [[ $QUIET -eq 0 ]] || return 0
 
     if [[ "$1" == "-n" ]]; then
         shift
         echo -en "🧚‍♀️ $*" >&2
-        return
+        return 0
     fi
 
     echo -e "🧚‍♀️ $*" >&2
@@ -158,7 +159,7 @@ LONG_ARGS=()
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --help)    LONG_ARGS+=("-h"); shift ;;
-        --version) LONG_ARGS+=("--version"); shift ;;
+        --version) LONG_ARGS+=("-v"); shift ;;
         --size)
             [[ $# -lt 2 ]] && { log_error "--size requereix un valor"; exit 1; }
             LONG_ARGS+=("-s" "$2"); shift 2 ;;
@@ -174,9 +175,10 @@ done
 
 set -- "${LONG_ARGS[@]:-}"
 
-while getopts ":hqs:" opt; do
+while getopts ":hvqs:" opt; do
     case "$opt" in
         h) usage ;;
+        v) show_version ;;
         q) QUIET=1 ;;
         s) SIZE="$OPTARG"; SIZE_EXPLICIT=1 ;;
         :)
@@ -192,12 +194,14 @@ done
 
 shift $((OPTIND - 1))
 
-# Handle --version explicitly
-for arg in "$@"; do
-    if [[ "$arg" == "--version" ]]; then
-        show_version
-    fi
-done
+#
+# echo $@
+# # Handle --version explicitly
+# for arg in "$@"; do
+#     if [[ "$arg" == "--version" ]]; then
+#         show_version
+#     fi
+# done
 
 # Must have at least one operand
 if [[ $# -lt 1 ]]; then
